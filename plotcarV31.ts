@@ -140,11 +140,11 @@ pins.digitalWritePin(DigitalPin.P15, 0)
 pins.digitalWritePin(DigitalPin.P16, 0)
 
 let moter_number = 0;
-//let io_neo = neopixel.create(DigitalPin.P9, 4, NeoPixelMode.RGB);
-//io_neo.showRainbow(1,360)
-pins.servoWritePin(AnalogPin.P8, 0);
-basic.pause(1000);
-pins.digitalWritePin(DigitalPin.P8, 0)
+let io_neo = neopixel.create(DigitalPin.P9, 4, NeoPixelMode.RGB);
+io_neo.showRainbow(1, 360)
+pins.servoWritePin(AnalogPin.P8, 90);
+basic.pause(100);
+
 //バージョンの判定
 let first = input.runningTimeMicros()
 let sum = 0
@@ -152,16 +152,15 @@ for (let index = 0; index < 1000; index++) {
     sum += 1
 }
 //basic.showNumber(input.runningTimeMicros() - first);
-if ((input.runningTimeMicros() - first) < 2000 ){
-    microbit_wait = 5000; 
-//    basic.showString("V2");
+if ((input.runningTimeMicros() - first) < 2000) {
+    microbit_wait = 5000;
+    //    basic.showString("V2");
 
-    }
-else
-    {
+}
+else {
     microbit_wait = 900;
-//    basic.showString("V1");
-    }
+    //    basic.showString("V1");
+}
 
 
 //% color="#3943c6" block="Plotcar Ver3.5" weight=95 icon="\uf1b9"
@@ -180,22 +179,22 @@ namespace eureka_plotter_car {
         //% block="back"
         back
     }
-    
+
     export enum plotter_RL {
         //% block="Right"
         Right,
         //% block="Left"
         Left
     }
-    
-    
+
+
     export enum microbit_LED {
         //% block="invalid"
         invalid,
         //% block="effective"
         effective
     }
-    
+
     export enum houkou {
         //% block="Right_right_angle"
         Right_right_angle,
@@ -207,7 +206,7 @@ namespace eureka_plotter_car {
         Diagonal_left
     }
 
-    
+
     export enum kyori {
         //% block="long"
         long,
@@ -236,7 +235,7 @@ namespace eureka_plotter_car {
         //% block="V2_Turbo"
         V2_Turbo
     }
-    
+
     export enum onoff {
         //% block="ON"
         ON,
@@ -249,7 +248,7 @@ namespace eureka_plotter_car {
         //% block="white"
         white
     }
-    
+
 
 
 
@@ -460,14 +459,12 @@ namespace eureka_plotter_car {
     //% color="#009CA0" weight=96 blockId=eureka_relay block="pen |%mode| " group="1 pen condition"
     export function plottercar_pen(mode: pen_updown) {
         if (mode == pen_updown.down) {
-            pins.servoWritePin(AnalogPin.P8, 90);
-            basic.pause(1000);
-            pins.digitalWritePin(DigitalPin.P8, 0)
-        }
-        if (mode == pen_updown.up) {
             pins.servoWritePin(AnalogPin.P8, 0);
             basic.pause(1000);
-            pins.digitalWritePin(DigitalPin.P8, 0)
+        }
+        if (mode == pen_updown.up) {
+            pins.servoWritePin(AnalogPin.P8, 90);
+            basic.pause(100);
         }
     }
 
@@ -511,23 +508,23 @@ namespace eureka_plotter_car {
         moter(moter_number, 0, 1);
     }
 
- 
 
 
-//% color="#3943c6" weight=72 blockId=plottercar_houkou
-//% block="change direction |%muki|   " group="2 Basic movement"
-export function plottercar_houkou(muki: houkou): void {
-    switch (muki) {
-        case houkou.Right_right_angle:
-            return eureka_plotter_car.plottercar_RL_cycle(plotter_RL.Right, 90);
-        case houkou.left_right_angle:
-            return eureka_plotter_car.plottercar_RL_cycle(plotter_RL.Left, 90);
-        case houkou.Diagonal_right:
-            return eureka_plotter_car.plottercar_RL_cycle(plotter_RL.Right, 45);
-        case houkou.Diagonal_left:
-            return eureka_plotter_car.plottercar_RL_cycle(plotter_RL.Left, 45);
+
+    //% color="#3943c6" weight=72 blockId=plottercar_houkou
+    //% block="change direction |%muki|   " group="2 Basic movement"
+    export function plottercar_houkou(muki: houkou): void {
+        switch (muki) {
+            case houkou.Right_right_angle:
+                return eureka_plotter_car.plottercar_RL_cycle(plotter_RL.Right, 90);
+            case houkou.left_right_angle:
+                return eureka_plotter_car.plottercar_RL_cycle(plotter_RL.Left, 90);
+            case houkou.Diagonal_right:
+                return eureka_plotter_car.plottercar_RL_cycle(plotter_RL.Right, 45);
+            case houkou.Diagonal_left:
+                return eureka_plotter_car.plottercar_RL_cycle(plotter_RL.Left, 45);
+        }
     }
-}
 
 
 
@@ -632,7 +629,7 @@ export function plottercar_houkou(muki: houkou): void {
         cond_degree = (1 + Deg / 1000);
     }
 
-   //% color="#3943c6" weight=55 blockId=plottercar_R_step
+    //% color="#3943c6" weight=55 blockId=plottercar_R_step
     //% block="Right_wheel|%R_step|step |%houkou|direction" group="5 adjustment"
 
     export function plottercar_R_step(R_step: number, houkou: plotter_houkou): void {
@@ -756,16 +753,16 @@ export function plottercar_houkou(muki: houkou): void {
     //% advanced=true
     export function photo_R(limit_R: number): boolean {
         if (eureka_plotter_car.phto_R() <= limit_R) {
-//            io_neo.setPixelColor(1, neopixel.colors(NeoPixelColors.Green))
+            io_neo.setPixelColor(1, neopixel.colors(NeoPixelColors.Green))
         } else {
-//            io_neo.setPixelColor(1, neopixel.colors(NeoPixelColors.Red))
+            io_neo.setPixelColor(1, neopixel.colors(NeoPixelColors.Red))
         }
         if (eureka_plotter_car.phto_L() <= limit_R) {
-//            io_neo.setPixelColor(0, neopixel.colors(NeoPixelColors.Green))
+            io_neo.setPixelColor(0, neopixel.colors(NeoPixelColors.Green))
         } else {
-//            io_neo.setPixelColor(0, neopixel.colors(NeoPixelColors.Red))
+            io_neo.setPixelColor(0, neopixel.colors(NeoPixelColors.Red))
         }
-//        io_neo.show()
+        io_neo.show()
         if ((pins.analogReadPin(AnalogPin.P10) / 1023) * 100 < limit_R) {
             return true;
         } else {
@@ -778,16 +775,16 @@ export function plottercar_houkou(muki: houkou): void {
     //% advanced=true
     export function photo_L(limit_L: number): boolean {
         if (eureka_plotter_car.phto_R() <= limit_L) {
-//            io_neo.setPixelColor(1, neopixel.colors(NeoPixelColors.Green))
+            io_neo.setPixelColor(1, neopixel.colors(NeoPixelColors.Green))
         } else {
-//            io_neo.setPixelColor(1, neopixel.colors(NeoPixelColors.Red))
+            io_neo.setPixelColor(1, neopixel.colors(NeoPixelColors.Red))
         }
         if (eureka_plotter_car.phto_L() <= limit_L) {
-//            io_neo.setPixelColor(0, neopixel.colors(NeoPixelColors.Green))
+            io_neo.setPixelColor(0, neopixel.colors(NeoPixelColors.Green))
         } else {
-//            io_neo.setPixelColor(0, neopixel.colors(NeoPixelColors.Red))
+            io_neo.setPixelColor(0, neopixel.colors(NeoPixelColors.Red))
         }
-//        io_neo.show()
+        io_neo.show()
         if ((pins.analogReadPin(AnalogPin.P1) / 1023) * 100 < limit_L) {
             return true;
         } else {
@@ -809,16 +806,16 @@ export function plottercar_houkou(muki: houkou): void {
             sikii = 20;
         }
         if (eureka_plotter_car.phto_R() <= sikii) {
-//            io_neo.setPixelColor(1, neopixel.colors(NeoPixelColors.Green))
+            io_neo.setPixelColor(1, neopixel.colors(NeoPixelColors.Green))
         } else {
-//            io_neo.setPixelColor(1, neopixel.colors(NeoPixelColors.Red))
+            io_neo.setPixelColor(1, neopixel.colors(NeoPixelColors.Red))
         }
         if (eureka_plotter_car.phto_L() <= sikii) {
-//            io_neo.setPixelColor(0, neopixel.colors(NeoPixelColors.Green))
+            io_neo.setPixelColor(0, neopixel.colors(NeoPixelColors.Green))
         } else {
-//            io_neo.setPixelColor(0, neopixel.colors(NeoPixelColors.Red))
+            io_neo.setPixelColor(0, neopixel.colors(NeoPixelColors.Red))
         }
-//        io_neo.show()
+        io_neo.show()
         switch (wb) {
             case whiteblack.black:
                 if ((pins.analogReadPin(AnalogPin.P1) / 1023) * 100 > sikii && (pins.analogReadPin(AnalogPin.P10) / 1023) * 100 < sikii) {
@@ -850,16 +847,16 @@ export function plottercar_houkou(muki: houkou): void {
             sikii = 20;
         }
         if (eureka_plotter_car.phto_R() <= sikii) {
-//            io_neo.setPixelColor(1, neopixel.colors(NeoPixelColors.Green))
+            io_neo.setPixelColor(1, neopixel.colors(NeoPixelColors.Green))
         } else {
-//            io_neo.setPixelColor(1, neopixel.colors(NeoPixelColors.Red))
+            io_neo.setPixelColor(1, neopixel.colors(NeoPixelColors.Red))
         }
         if (eureka_plotter_car.phto_L() <= sikii) {
-//            io_neo.setPixelColor(0, neopixel.colors(NeoPixelColors.Green))
+            io_neo.setPixelColor(0, neopixel.colors(NeoPixelColors.Green))
         } else {
-//            io_neo.setPixelColor(0, neopixel.colors(NeoPixelColors.Red))
+            io_neo.setPixelColor(0, neopixel.colors(NeoPixelColors.Red))
         }
-//        io_neo.show()
+        io_neo.show()
         switch (wb) {
             case whiteblack.black:
                 if (
@@ -892,16 +889,16 @@ export function plottercar_houkou(muki: houkou): void {
             sikii = 20;
         }
         if (eureka_plotter_car.phto_R() <= sikii) {
-//            io_neo.setPixelColor(1, neopixel.colors(NeoPixelColors.Green))
+            io_neo.setPixelColor(1, neopixel.colors(NeoPixelColors.Green))
         } else {
-//            io_neo.setPixelColor(1, neopixel.colors(NeoPixelColors.Red))
+            io_neo.setPixelColor(1, neopixel.colors(NeoPixelColors.Red))
         }
         if (eureka_plotter_car.phto_L() <= sikii) {
-//            io_neo.setPixelColor(0, neopixel.colors(NeoPixelColors.Green))
+            io_neo.setPixelColor(0, neopixel.colors(NeoPixelColors.Green))
         } else {
-//            io_neo.setPixelColor(0, neopixel.colors(NeoPixelColors.Red))
+            io_neo.setPixelColor(0, neopixel.colors(NeoPixelColors.Red))
         }
-//        io_neo.show()
+        io_neo.show()
         switch (wb) {
             case whiteblack.black:
                 if (
@@ -959,8 +956,96 @@ export function plottercar_houkou(muki: houkou): void {
 
 }
 
+//% color="#ff4500" weight=94 block="Plotcar_LED"
+
+namespace plotLED_blocks {
+
+    export enum neoLED_color {
+        //% block="white
+        white,
+        //% block="red"
+        red,
+        //% block="yellow"
+        yellow,
+        //% block="green"
+        green,
+        //% block="blue"
+        blue,
+        //% block="orange"
+        orange,
+        //% block="indigo"
+        indigo,
+        //% block="violet"
+        violet,
+        //% block="purple"
+        purple,
+        //% block="black"
+        black
+    }
 
 
+
+
+    //% color="#20b2aa" weight=82 blockId=neopixel_select block="FullcolorLED color|%neo_color| " group="PlotcarLED"
+    export function neopixel_select_block(neo_color: neoLED_color) {
+
+        switch (neo_color) {
+            case neoLED_color.red:
+                io_neo.showColor(neopixel.colors(NeoPixelColors.Red))
+                break;
+            case neoLED_color.orange:
+                io_neo.showColor(neopixel.colors(NeoPixelColors.Orange))
+                break;
+            case neoLED_color.yellow:
+                io_neo.showColor(neopixel.colors(NeoPixelColors.Yellow))
+                break;
+            case neoLED_color.green:
+
+                io_neo.showColor(neopixel.colors(NeoPixelColors.Green))
+                break;
+            case neoLED_color.blue:
+                io_neo.showColor(neopixel.colors(NeoPixelColors.Blue))
+                break;
+            case neoLED_color.indigo:
+                io_neo.showColor(neopixel.colors(NeoPixelColors.Indigo))
+                break;
+            case neoLED_color.violet:
+                io_neo.showColor(neopixel.colors(NeoPixelColors.Violet))
+                break;
+            case neoLED_color.purple:
+                io_neo.showColor(neopixel.colors(NeoPixelColors.Purple))
+                break;
+            case neoLED_color.white:
+                io_neo.showColor(neopixel.colors(NeoPixelColors.White))
+                break;
+            case neoLED_color.black:
+                io_neo.showColor(neopixel.colors(NeoPixelColors.Black))
+                break;
+        }
+    }
+
+    //% color="#9400d3" weight=81 blockId=neopixel_reinbow block="reinbow" group="PlotcarLED"
+    export function neopixel_rainbow() {
+        io_neo.showRainbow(1, 180)
+    }
+
+    //% color="#cd853f" weight=80 blockId=neopixel_erace block="FullcolorLED All_Erease" group="PlotcarLED"
+    export function neopixel_erace_block() {
+        for (let n = 0; n < 4; n++) {
+            io_neo.showColor(neopixel.colors(NeoPixelColors.Black))
+        }
+    }
+
+    //% color="#1E90FF" weight=83 block="wait_time(sec)|%second|" group="PlotcarLED"
+    //% second.min=0 second.max=10
+    export function driveForwards(second: number): void {
+        basic.pause(second * 1000);
+    }
+
+
+
+
+}
 
 
 
