@@ -797,13 +797,13 @@ namespace eureka_plotter_car {
     //% advanced=true
     export function photo_R_out(wb: whiteblack, sikii: sence_select): boolean {
         if (sikii == sence_select.Low_sensitivity) {
-            sikii = 40;
+            sikii = 75;
         }
         if (sikii == sence_select.normal30) {
-            sikii = 30;
+            sikii = 65;
         }
         if (sikii == sence_select.High_sensitivity) {
-            sikii = 20;
+            sikii = 55;
         }
         if (eureka_plotter_car.phto_R() <= sikii) {
             io_neo.setPixelColor(1, neopixel.colors(NeoPixelColors.Green))
@@ -838,13 +838,13 @@ namespace eureka_plotter_car {
     //% advanced=true
     export function photo_L_out(wb: whiteblack, sikii: sence_select): boolean {
         if (sikii == sence_select.Low_sensitivity) {
-            sikii = 40;
+            sikii = 75;
         }
         if (sikii == sence_select.normal30) {
-            sikii = 30;
+            sikii = 65;
         }
         if (sikii == sence_select.High_sensitivity) {
-            sikii = 20;
+            sikii = 55;
         }
         if (eureka_plotter_car.phto_R() <= sikii) {
             io_neo.setPixelColor(1, neopixel.colors(NeoPixelColors.Green))
@@ -880,13 +880,13 @@ namespace eureka_plotter_car {
     //% advanced=true
     export function photo_LR_out(wb: whiteblack, sikii: sence_select): boolean {
         if (sikii == sence_select.Low_sensitivity) {
-            sikii = 40;
+            sikii = 75;
         }
         if (sikii == sence_select.normal30) {
-            sikii = 30;
+            sikii = 65;
         }
         if (sikii == sence_select.High_sensitivity) {
-            sikii = 20;
+            sikii = 55;
         }
         if (eureka_plotter_car.phto_R() <= sikii) {
             io_neo.setPixelColor(1, neopixel.colors(NeoPixelColors.Green))
