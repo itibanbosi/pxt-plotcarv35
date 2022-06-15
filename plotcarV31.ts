@@ -1,4 +1,4 @@
-/* plot_car Ver3.5*/
+/* plot_car Ver3.6*/
 
 let wait = 0;
 let Tugi_R = 0;
@@ -163,7 +163,7 @@ else {
 }
 
 
-//% color="#3943c6" block="Plotcar Ver3.5" weight=95 icon="\uf1b9"
+//% color="#3943c6" block="Plotcar Ver3.6" weight=95 icon="\uf1b9"
 namespace eureka_plotter_car {
 
     export enum pen_updown {
