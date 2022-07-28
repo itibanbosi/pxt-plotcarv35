@@ -160,10 +160,8 @@ else {
 namespace eureka_plotter_car {
 
     export enum pen_updown {
-        //% block="down90"
-        down90,
-        //% block="down45"
-        down45,
+        //% block="down"
+        down,
         //% block="up"
         up
     }
@@ -457,14 +455,11 @@ namespace eureka_plotter_car {
             pins.servoWritePin(AnalogPin.P8, 90);
             basic.pause(1000);
         }
-        if (mode == pen_updown.down90) {
+        if (mode == pen_updown.down) {
             pins.servoWritePin(AnalogPin.P8, 0);
             basic.pause(100);
         }
-        if (mode == pen_updown.down45) {
-            pins.servoWritePin(AnalogPin.P8, 45);
-            basic.pause(100);
-        }
+
     }
 
     //% color="#009CA9" weight=90 blockId=eureka_relay2 block="New_pen |%mode| " group="1 Control Pen"
@@ -474,7 +469,7 @@ namespace eureka_plotter_car {
             basic.pause(1000);
         }
 
-        if (mode == pen_updown.down45) {
+        if (mode == pen_updown.down) {
             pins.servoWritePin(AnalogPin.P8, 45);
             basic.pause(100);
         }
