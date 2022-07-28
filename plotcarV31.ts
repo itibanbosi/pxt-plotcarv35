@@ -454,11 +454,11 @@ namespace eureka_plotter_car {
     //% color="#009CA0" weight=96 blockId=eureka_relay block="pen |%mode| " group="1 Control Pen"
     export function plottercar_pen(mode: pen_updown) {
         if (mode == pen_updown.up) {
-            pins.servoWritePin(AnalogPin.P8, 0);
+            pins.servoWritePin(AnalogPin.P8, 90);
             basic.pause(1000);
         }
         if (mode == pen_updown.down90) {
-            pins.servoWritePin(AnalogPin.P8, 90);
+            pins.servoWritePin(AnalogPin.P8, 0);
             basic.pause(100);
         }
         if (mode == pen_updown.down45) {
