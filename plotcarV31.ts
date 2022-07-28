@@ -589,7 +589,7 @@ namespace eureka_plotter_car {
                 microbit_wait = 600;
                 break;
             case microbit_version.V2_Turbo:
-                microbit_wait = 2500;
+                microbit_wait = 2000;
                 break;
 
 
@@ -682,20 +682,8 @@ namespace eureka_plotter_car {
         return Math.round(Math.idiv(d2 / 5, 58) * 1.5);
     }
 
-    /*
-        //% color="#009A00" weight=21 blockId=sonar_ping_LED block="Display distance" group="6 Ultrasonic_Distance sensor"
-        //% advanced=true
-        export function sonar_ping_LED() {
-            basic.showNumber(sonar_ping_2());
-        }
-    */
-
-
-
-
-
     //% color="#009A00" weight=30 block="(minimam 5cm) dstance |%limit| cm  |%nagasa| " group="6 Ultrasonic_Distance sensor"
-    //% limit.min=8 limit.max=30
+    //% limit.min=5 limit.max=30
     //% advanced=true
     export function sonar_ping_3(limit: number, nagasa: kyori): boolean {
         let d1 = 0;
