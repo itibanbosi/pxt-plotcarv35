@@ -1,5 +1,5 @@
-/* plot_car Ver3.6*/
-
+/* Plot_car Ver4.0 
+   eureka.niigata.jp  */
 let wait = 0;
 let Tugi_R = 0;
 let Tugi_L = 0;
@@ -14,28 +14,21 @@ let cond_Distance = 1;
 let cond_degree = 1;
 let microbit_wait = 750;
 
-let Stepping = [
-    [0, 0, 0, 0],
-    [0, 0, 0, 0],
-    [0, 0, 0, 0],
-    [0, 0, 0, 0],
-];
-
+/*   let  = [
+       [0, 0, 0, 0],
+       [0, 0, 0, 0],
+       [0, 0, 0, 0],
+       [0, 0, 0, 0],
+   ];
+   
+*/
 let Stepping_non = [
     [0, 0, 0, 0],
     [0, 0, 0, 0],
     [0, 0, 0, 0],
     [0, 0, 0, 0],
 ];
-let Stepping1 = [
-    [0, 0, 0, 0],
-    [0, 0, 0, 0],
-    [0, 0, 0, 0],
-    [0, 0, 0, 0],
-    [0, 0, 0, 0],
-    [0, 0, 0, 0],
-    [0, 0, 0, 0],
-];
+
 let SteppingF_0 = [
     [1, 1, 0, 0],
     [0, 1, 1, 0],
@@ -163,12 +156,14 @@ else {
 }
 
 
-//% color="#3943c6" block="Plotcar Ver3.6" weight=95 icon="\uf1b9"
+//% color="#3943c6" block="Plotcar Ver3.5" weight=95 icon="\uf1b9"
 namespace eureka_plotter_car {
 
     export enum pen_updown {
-        //% block="down"
-        down,
+        //% block="down90"
+        down90,
+        //% block="down45"
+        down45,
         //% block="up"
         up
     }
@@ -176,34 +171,34 @@ namespace eureka_plotter_car {
     export enum plotter_houkou {
         //% block="forward"
         forward,
-        //% block="back"
-        back
+        //% block="backward"
+        backward
     }
 
     export enum plotter_RL {
-        //% block="Right"
-        Right,
-        //% block="Left"
-        Left
+        //% block="right"
+        right,
+        //% block="left"
+        left
     }
 
 
     export enum microbit_LED {
-        //% block="invalid"
-        invalid,
-        //% block="effective"
-        effective
+        //% block="disable"
+        disable,
+        //% block="activate"
+        activate
     }
 
     export enum houkou {
-        //% block="Right_right_angle"
-        Right_right_angle,
-        //% block="left_right_angle"
-        left_right_angle,
-        //% block="Diagonal_right"
-        Diagonal_right,
-        //% block="Diagonal_left"
-        Diagonal_left
+        //% block="right_angle"
+        right_angle,
+        //% block="left_angle"
+        left_angle,
+        //% block="diagonal_right"
+        diagonal_right,
+        //% block="diagonal_left"
+        diagonal_left
     }
 
 
@@ -370,7 +365,7 @@ namespace eureka_plotter_car {
                 break;
         }
 
-        /*  バックラッシュの処理　Right_wheel*/
+        /*  バックラッシュの処理　right_wheel*/
         if (PremotionR != R_zengo) {
             music.playTone(523, music.beat(BeatFraction.Sixteenth))
             for (let index = 0; index < 3; index++) {
@@ -389,7 +384,7 @@ namespace eureka_plotter_car {
         }
 
 
-        /*  バックラッシュの処理　Left_wheel*/
+        /*  バックラッシュの処理　left_wheel*/
         if (PremotionL != L_zengo) {
             music.playTone(523, music.beat(BeatFraction.Sixteenth))
             for (let index = 0; index < 3; index++) {
@@ -456,21 +451,25 @@ namespace eureka_plotter_car {
     }
 
 
-    //% color="#009CA0" weight=96 blockId=eureka_relay block="pen |%mode| " group="1 pen condition"
+    //% color="#009CA0" weight=96 blockId=eureka_relay block="pen |%mode| " group="1 Control Pen"
     export function plottercar_pen(mode: pen_updown) {
-        if (mode == pen_updown.down) {
+        if (mode == pen_updown.up) {
             pins.servoWritePin(AnalogPin.P8, 0);
             basic.pause(1000);
         }
-        if (mode == pen_updown.up) {
+        if (mode == pen_updown.down90) {
             pins.servoWritePin(AnalogPin.P8, 90);
+            basic.pause(100);
+        }
+        if (mode == pen_updown.down45) {
+            pins.servoWritePin(AnalogPin.P8, 45);
             basic.pause(100);
         }
     }
 
 
     //% color="#3943c6" weight=80 blockId=plottercar_zengo
-    //% block="To|%zengo| |%F_cm| cm" group="2 Basic movement"
+    //% block="Move |%zengo| |%F_cm| cm" group="2 Basic control"
     export function plottercar_zengo(zengo: plotter_houkou, F_cm: number): void {
         switch (zengo) {
             case plotter_houkou.forward:
@@ -478,7 +477,7 @@ namespace eureka_plotter_car {
                 moter(moter_number, 1, 1);
                 break;
 
-            case plotter_houkou.back:
+            case plotter_houkou.backward:
                 moter_number = F_cm / (18.9 * cond_Distance) * 512;
                 moter(moter_number, 2, 2);
                 break;
@@ -486,14 +485,14 @@ namespace eureka_plotter_car {
     }
 
     //% color="#3943c6" weight=76 blockId=plottercar_RL_cycle
-    //% block="|%RorL| roll degree |%L_degree| " group="2 Basic movement"
-    export function plottercar_RL_cycle(RorL: plotter_RL, RL_degree: number): void {
+    //% block="Rotate |%L_degree|degrees to |%RorL|" group="2 Basic control"
+    export function plottercar_RL_cycle(RL_degree: number, RorL: plotter_RL): void {
         switch (RorL) {
-            case plotter_RL.Left:
+            case plotter_RL.left:
                 moter_number = RL_degree / 360 * 512 * con_kaiten * cond_degree;
                 moter(moter_number, 1, 2);
                 break;
-            case plotter_RL.Right:
+            case plotter_RL.right:
                 moter_number = RL_degree / 360 * 512 * con_kaiten * cond_degree;
                 moter(moter_number, 2, 1);
                 break;
@@ -502,7 +501,7 @@ namespace eureka_plotter_car {
 
 
     //% color="#ff4940" weight=71 blockId=plottercar_rest
-    //% block="Power off" group="2 Basic movement"
+    //% block="power off" group="2 Basic control"
     export function plottercar_frest(): void {
         moter_number = 1;
         moter(moter_number, 0, 1);
@@ -512,36 +511,36 @@ namespace eureka_plotter_car {
 
 
     //% color="#3943c6" weight=72 blockId=plottercar_houkou
-    //% block="change direction |%muki|   " group="2 Basic movement"
+    //% block="change direction to|%muki|" group="2 Basic control"
     export function plottercar_houkou(muki: houkou): void {
         switch (muki) {
-            case houkou.Right_right_angle:
-                return eureka_plotter_car.plottercar_RL_cycle(plotter_RL.Right, 90);
-            case houkou.left_right_angle:
-                return eureka_plotter_car.plottercar_RL_cycle(plotter_RL.Left, 90);
-            case houkou.Diagonal_right:
-                return eureka_plotter_car.plottercar_RL_cycle(plotter_RL.Right, 45);
-            case houkou.Diagonal_left:
-                return eureka_plotter_car.plottercar_RL_cycle(plotter_RL.Left, 45);
+            case houkou.right_angle:
+                return eureka_plotter_car.plottercar_RL_cycle(plotter_RL.right, 90);
+            case houkou.left_angle:
+                return eureka_plotter_car.plottercar_RL_cycle(plotter_RL.left, 90);
+            case houkou.diagonal_right:
+                return eureka_plotter_car.plottercar_RL_cycle(plotter_RL.right, 45);
+            case houkou.diagonal_left:
+                return eureka_plotter_car.plottercar_RL_cycle(plotter_RL.left, 45);
         }
     }
 
 
 
     //% color="#009A00" weight=40 blockId=polygon
-    //% block="Polygon work |%digree_step| polygon   One side length |%Edge_Num|cm  |%RorL|roll " group="3 Shape"
+    //% block="Run |%RorL|,|%digree_step| sides polygon,|%Edge_Num|cm length" group="3 Shape"
     export function polygon(digree_step: number, Edge_Num: number, RorL: plotter_RL): void {
         switch (RorL) {
-            case plotter_RL.Right:
+            case plotter_RL.right:
                 for (let index = 0; index < digree_step; index++) {
                     eureka_plotter_car.plottercar_zengo(plotter_houkou.forward, Edge_Num)
-                    eureka_plotter_car.plottercar_RL_cycle(plotter_RL.Right, 360 / digree_step)
+                    eureka_plotter_car.plottercar_RL_cycle(plotter_RL.right, 360 / digree_step)
                 }
                 break;
-            case plotter_RL.Left:
+            case plotter_RL.left:
                 for (let index = 0; index < digree_step; index++) {
                     eureka_plotter_car.plottercar_zengo(plotter_houkou.forward, Edge_Num)
-                    eureka_plotter_car.plottercar_RL_cycle(plotter_RL.Left, 360 / digree_step)
+                    eureka_plotter_car.plottercar_RL_cycle(plotter_RL.left, 360 / digree_step)
                 }
                 break;
         }
@@ -549,21 +548,21 @@ namespace eureka_plotter_car {
 
 
     //% color="#009A00" weight=39 blockId=cycle
-    //% block="circlework diameter |%D_Num|cm  |%RorL|roll" group="3 Shape"
+    //% block="circlate |%RorL|,dia.|%D_Num|cm" group="3 Shape"
     export function cycle(D_Num: number, RorL: plotter_RL): void {
         let cir = D_Num * 3.14
         let forward_D = cir / 30
         switch (RorL) {
-            case plotter_RL.Right:
+            case plotter_RL.right:
                 for (let index = 0; index < 30; index++) {
                     eureka_plotter_car.plottercar_zengo(plotter_houkou.forward, forward_D)
-                    eureka_plotter_car.plottercar_RL_cycle(plotter_RL.Right, 360 / 30)
+                    eureka_plotter_car.plottercar_RL_cycle(plotter_RL.right, 360 / 30)
                 }
                 break;
-            case plotter_RL.Left:
+            case plotter_RL.left:
                 for (let index = 0; index < 30; index++) {
                     eureka_plotter_car.plottercar_zengo(plotter_houkou.forward, forward_D)
-                    eureka_plotter_car.plottercar_RL_cycle(plotter_RL.Left, 360 / 30)
+                    eureka_plotter_car.plottercar_RL_cycle(plotter_RL.left, 360 / 30)
                 }
 
         }
@@ -571,7 +570,7 @@ namespace eureka_plotter_car {
 
 
 
-    //% color="#ff3d03" weight=34 blockId=Microbit_Version_info block="micro:bit_Version |%Version_info|" group="4 Initial setting"
+    //% color="#ff3d03" weight=34 blockId=Microbit_Version_info block="micro:bit_Version |%Version_info|" group="4 Default setting"
     export function microbit_version_info(Version_info: microbit_version) {
         switch (Version_info) {
             case microbit_version.Version1:
@@ -599,13 +598,13 @@ namespace eureka_plotter_car {
 
 
 
-    //% color="#ff3d03" weight=35 blockId=auto_led_off block="micro:bit LED |%Matrix_LED|" group="4 Initial setting"
+    //% color="#ff3d03" weight=35 blockId=auto_led_off block="micro:bit LED |%Matrix_LED|" group="4 Default setting"
     export function auto_led_off(Matrix_LED: microbit_LED) {
         switch (Matrix_LED) {
-            case microbit_LED.invalid:
+            case microbit_LED.disable:
                 led.enable(false);
                 break;
-            case microbit_LED.effective:
+            case microbit_LED.activate:
                 led.enable(true);
         }
     }
@@ -616,21 +615,21 @@ namespace eureka_plotter_car {
 
 
     //% color="#ffa800" weight=20 blockId=plotter_Distance
-    //% block="distance adjustment  short|%Dis|long" group="5 adjustment"
+    //% block="Travel distance adjustment(1/1000) shorter|%Dis|longer" group="5 Fine control"
     //% Dis.min=-30 Dis.max=30
     export function plotter_Distance(Dis: number): void {
         cond_Distance = (1 + Dis / 1000);
     }
 
     //% color="#ffa800" weight=18 blockId=plotter_degree
-    //% block="Rotation angle adjustment  Less|%Deg|Many" group="5 adjustment"
+    //% block="Rotation angle adjustment(1/1000) Less|%Deg|more" group="5 Fine control"
     //% Deg.min=-30 Deg.max=30
     export function plotter_degree(Deg: number): void {
         cond_degree = (1 + Deg / 1000);
     }
 
     //% color="#3943c6" weight=55 blockId=plottercar_R_step
-    //% block="Right_wheel|%R_step|step |%houkou|direction" group="5 adjustment"
+    //% block="Right_wheel move |%houkou| |%R_step|steps" group="5 Fine control"
 
     export function plottercar_R_step(R_step: number, houkou: plotter_houkou): void {
         moter_number = R_step;
@@ -638,20 +637,20 @@ namespace eureka_plotter_car {
             case plotter_houkou.forward:
                 moter(R_step / 4, 1, 0);
                 return;
-            case plotter_houkou.back:
+            case plotter_houkou.backward:
                 moter(R_step / 4, 2, 0);
                 return;
         }
     }
     //% color="#3943c6" weight=58 blockId=plottercar_L_step
-    //% block="Left_wheel|%L_step|step |%houkou|direction" group="5 adjustment"
+    //% block="Left wheel move |%houkou| |%L_step|steps" group="5 Fine control"
     export function plottercar_L_step(L_step: number, houkou: plotter_houkou): void {
         moter_number = L_step;
         switch (houkou) {
             case plotter_houkou.forward:
                 moter(L_step / 4, 0, 1);
                 return;
-            case plotter_houkou.back:
+            case plotter_houkou.backward:
                 moter(L_step / 4, 0, 2);
                 return;
         }
@@ -736,19 +735,19 @@ namespace eureka_plotter_car {
     }
 
 
-    //% color="#f071bd" weight=30 blockId=auto_photo_R block="Right_photoreflector" group="7 photoreflector"
+    //% color="#f071bd" weight=30 blockId=auto_photo_R block="right_photoreflector" group="7 photoreflector"
     //% advanced=true
     export function phto_R() {
         return Math.round((pins.analogReadPin(AnalogPin.P10) / 1023) * 100);
     }
 
-    //% color="#f071bd" weight=28 blockId=auto_photo_L block="Left_photoreflector" group="7 photoreflector"
+    //% color="#f071bd" weight=28 blockId=auto_photo_L block="left_photoreflector" group="7 photoreflector"
     //% advanced=true
     export function phto_L() {
         return Math.round((pins.analogReadPin(AnalogPin.P1) / 1023) * 100);
     }
 
-    //% color="#d4b41f"  weight=26 block="Right_photoreflector |%limit_R| small" group="7 photoreflector"
+    //% color="#d4b41f"  weight=26 block="right_photoreflector |%limit_R| small" group="7 photoreflector"
     //% limit_R.min=0 limit_R.max=100
     //% advanced=true
     export function photo_R(limit_R: number): boolean {
@@ -770,7 +769,7 @@ namespace eureka_plotter_car {
         }
     }
 
-    //% color="#d4b41f"  weight=27 block="Left_photoreflector |%limit_L| small" group="7 photoreflector"
+    //% color="#d4b41f"  weight=27 block="left_photoreflector |%limit_L| small" group="7 photoreflector"
     //% limit_L.min=0 limit_L.max=100
     //% advanced=true
     export function photo_L(limit_L: number): boolean {
@@ -792,18 +791,18 @@ namespace eureka_plotter_car {
         }
     }
 
-    //% color="#6041f1"  weight=33 block="only Right |%wb| stepping on  |%sikii| " group="7 photoreflector"
+    //% color="#6041f1"  weight=33 block="only right |%wb| stepping on  |%sikii| " group="7 photoreflector"
     //% sence.min=10 sence.max=40
     //% advanced=true
     export function photo_R_out(wb: whiteblack, sikii: sence_select): boolean {
         if (sikii == sence_select.Low_sensitivity) {
-            sikii = 75;
+            sikii = 40;
         }
         if (sikii == sence_select.normal30) {
-            sikii = 65;
+            sikii = 30;
         }
         if (sikii == sence_select.High_sensitivity) {
-            sikii = 55;
+            sikii = 20;
         }
         if (eureka_plotter_car.phto_R() <= sikii) {
             io_neo.setPixelColor(1, neopixel.colors(NeoPixelColors.Green))
@@ -838,13 +837,13 @@ namespace eureka_plotter_car {
     //% advanced=true
     export function photo_L_out(wb: whiteblack, sikii: sence_select): boolean {
         if (sikii == sence_select.Low_sensitivity) {
-            sikii = 75;
+            sikii = 40;
         }
         if (sikii == sence_select.normal30) {
-            sikii = 65;
+            sikii = 30;
         }
         if (sikii == sence_select.High_sensitivity) {
-            sikii = 55;
+            sikii = 20;
         }
         if (eureka_plotter_car.phto_R() <= sikii) {
             io_neo.setPixelColor(1, neopixel.colors(NeoPixelColors.Green))
@@ -880,13 +879,13 @@ namespace eureka_plotter_car {
     //% advanced=true
     export function photo_LR_out(wb: whiteblack, sikii: sence_select): boolean {
         if (sikii == sence_select.Low_sensitivity) {
-            sikii = 75;
+            sikii = 40;
         }
         if (sikii == sence_select.normal30) {
-            sikii = 65;
+            sikii = 30;
         }
         if (sikii == sence_select.High_sensitivity) {
-            sikii = 55;
+            sikii = 20;
         }
         if (eureka_plotter_car.phto_R() <= sikii) {
             io_neo.setPixelColor(1, neopixel.colors(NeoPixelColors.Green))
@@ -1046,6 +1045,7 @@ namespace plotLED_blocks {
 
 
 }
+
 
 
 
