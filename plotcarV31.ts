@@ -467,6 +467,18 @@ namespace eureka_plotter_car {
         }
     }
 
+    //% color="#009CA9" weight=90 blockId=eureka_relay block2="New_pen |%mode| " group="1 Control Pen"
+    export function plottercar_pen2(mode: pen_updown) {
+        if (mode == pen_updown.up) {
+            pins.servoWritePin(AnalogPin.P8, 90);
+            basic.pause(1000);
+        }
+
+        if (mode == pen_updown.down45) {
+            pins.servoWritePin(AnalogPin.P8, 45);
+            basic.pause(100);
+        }
+    }
 
     //% color="#3943c6" weight=80 blockId=plottercar_zengo
     //% block="Move |%zengo| |%F_cm| cm" group="2 Basic control"
