@@ -462,7 +462,7 @@ namespace eureka_plotter_car {
 
     }
 
-    //% color="#009CA9" weight=90 blockId=eureka_relay2 block="New_pen |%mode| " group="1 Control Pen"
+    //% color="#109CA9" weight=90 blockId=eureka_relay2 block="New_pen |%mode| " group="1 Control Pen"
     export function plottercar_pen2(mode: pen_updown) {
         if (mode == pen_updown.up) {
             pins.servoWritePin(AnalogPin.P8, 90);
@@ -615,12 +615,6 @@ namespace eureka_plotter_car {
                 led.enable(true);
         }
     }
-
-
-
-
-
-
     //% color="#ffa800" weight=20 blockId=plotter_Distance
     //% block="Travel distance adjustment(1/1000) shorter|%Dis|longer" group="5 Fine control"
     //% Dis.min=-30 Dis.max=30
