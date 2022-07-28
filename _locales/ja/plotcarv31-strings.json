@@ -33,7 +33,7 @@
   "eureka_plotter_car.plotter_RL.left|block": "左",
   "eureka_plotter_car.plotter_RL.right|block": "右",
   "eureka_plotter_car.plotter_degree|block": "回転量調整(1/1000)  少なく |%Deg| 多く",
-  "eureka_plotter_car.plotter_houkou.back|block": "後ろ",
+  "eureka_plotter_car.plotter_houkou.backward|block": "後ろ",
   "eureka_plotter_car.plotter_houkou.forward|block": "前",
   "eureka_plotter_car.plottercar_L_step|block": "左車輪 |%L_step|step|%houkou|へ",
   "eureka_plotter_car.plottercar_RL_cycle|block": "回転角度|%RorL|度, |%L_degree|へ",
