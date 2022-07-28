@@ -21,7 +21,7 @@
   "eureka_plotter_car.onoff.OFF|block": "OFF",
   "eureka_plotter_car.onoff.ON|block": "ON",
 "eureka_plotter_car.pen_updown.down90|block": "下げる(装置が上にある場合）",
-"eureka_plotter_car.pen_updown.down45|block": "下げる（装置が底にある場合）",
+"eureka_plotter_car.pen_updown.down45|block": "45°下げる（装置が底にある場合）",
   "eureka_plotter_car.pen_updown.up|block": "上げる",
   "eureka_plotter_car.photo_LR_out|block": "左右とも |%wb| をふんでいる時　感度調整 |%sikii| ",
   "eureka_plotter_car.photo_L_out|block": "左だけが |%wb| をふんでいる時　感度調整 |%sikii| ",
