@@ -156,7 +156,7 @@ else {
 }
 
 
-//% color="#3943c6" block="Plotcar Ver3.5" weight=95 icon="\uf1b9"
+//% color="#3943c6" block="Plotcar Ver3.6" weight=95 icon="\uf1b9"
 namespace eureka_plotter_car {
 
     export enum pen_updown {
@@ -462,7 +462,7 @@ namespace eureka_plotter_car {
 
     }
 
-    //% color="#109CA9" weight=90 blockId=eureka_relay2 block="New_pen |%mode| " group="1 Control Pen"
+    //% color="#ff1493" weight=90 blockId=eureka_relay2 block="New_pen |%mode| " group="1 Control Pen"
     export function plottercar_pen2(mode: pen_updown) {
         if (mode == pen_updown.up) {
             pins.servoWritePin(AnalogPin.P8, 90);
