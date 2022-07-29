@@ -146,7 +146,7 @@ for (let index = 0; index < 1000; index++) {
 }
 //basic.showNumber(input.runningTimeMicros() - first);
 if ((input.runningTimeMicros() - first) < 2000) {
-    microbit_wait = 5000;
+    microbit_wait = 4500;
     //    basic.showString("V2");
 
 }
