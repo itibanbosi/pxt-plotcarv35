@@ -41,7 +41,7 @@
   "eureka_plotter_car.plottercar_frest|block": "ﾓｰﾀｰ電源切断",
   "eureka_plotter_car.plottercar_houkou|block": "方向を変える |%muki|",
   "eureka_plotter_car.plottercar_pen|block": "ペン |%mode| ",
-  "eureka_plotter_car.plottercar_pen2|block": "ペン |%mode|（そこに装置がある場合）",  
+  "eureka_plotter_car.plottercar_pen2|block": "Newペン |%mode|（底に装置がある場合）",  
   "eureka_plotter_car.plottercar_zengo|block": "|%zengo|へ|%F_cm|cm進む",
   "eureka_plotter_car.polygon|block": "|%digree_step| 角形   辺の長さ |%Edge_Num|cm  回転方向 |%RorL| ",
   "eureka_plotter_car.sence_select.High_sensitivity|block": "明るい部屋",
