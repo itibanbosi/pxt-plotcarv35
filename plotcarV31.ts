@@ -1,4 +1,4 @@
-/* Plot_car Ver4.0 
+/* Plot_car Ver4.0 2022/7/29 
    eureka.niigata.jp  */
 let wait = 0;
 let Tugi_R = 0;
