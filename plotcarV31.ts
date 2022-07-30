@@ -541,13 +541,13 @@ namespace eureka_plotter_car {
             case plotter_RL.right:
                 for (let index = 0; index < digree_step; index++) {
                     eureka_plotter_car.plottercar_zengo(plotter_houkou.forward, Edge_Num)
-                    eureka_plotter_car.plottercar_RL_cycle(plotter_RL.right, 360 / digree_step)
+                    eureka_plotter_car.plottercar_RL_cycle(360 / digree_step, plotter_RL.right)
                 }
                 break;
             case plotter_RL.left:
                 for (let index = 0; index < digree_step; index++) {
                     eureka_plotter_car.plottercar_zengo(plotter_houkou.forward, Edge_Num)
-                    eureka_plotter_car.plottercar_RL_cycle(plotter_RL.left, 360 / digree_step)
+                    eureka_plotter_car.plottercar_RL_cycle(360 / digree_step, plotter_RL.left)
                 }
                 break;
         }
@@ -563,13 +563,13 @@ namespace eureka_plotter_car {
             case plotter_RL.right:
                 for (let index = 0; index < 30; index++) {
                     eureka_plotter_car.plottercar_zengo(plotter_houkou.forward, forward_D)
-                    eureka_plotter_car.plottercar_RL_cycle(plotter_RL.right, 360 / 30)
+                    eureka_plotter_car.plottercar_RL_cycle(360 / 30, plotter_RL.right)
                 }
                 break;
             case plotter_RL.left:
                 for (let index = 0; index < 30; index++) {
                     eureka_plotter_car.plottercar_zengo(plotter_houkou.forward, forward_D)
-                    eureka_plotter_car.plottercar_RL_cycle(plotter_RL.left, 360 / 30)
+                    eureka_plotter_car.plottercar_RL_cycle(360 / 30, plotter_RL.left)
                 }
 
         }
