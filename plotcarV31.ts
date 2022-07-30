@@ -536,7 +536,7 @@ namespace eureka_plotter_car {
 
     //% color="#009A00" weight=40 blockId=polygon
     //% block="Run |%RorL|,|%digree_step| sides polygon,|%Edge_Num|cm length" group="3 Shape"
-    export function polygon(digree_step: number, Edge_Num: number, RorL: plotter_RL): void {
+    export function polygon(RorL: plotter_RL, digree_step: number, Edge_Num: number): void {
         switch (RorL) {
             case plotter_RL.right:
                 for (let index = 0; index < digree_step; index++) {
@@ -556,7 +556,7 @@ namespace eureka_plotter_car {
 
     //% color="#009A00" weight=39 blockId=cycle
     //% block="circlate |%RorL|,dia.|%D_Num|cm" group="3 Shape"
-    export function cycle(D_Num: number, RorL: plotter_RL): void {
+    export function cycle(RorL: plotter_RL, D_Num: number): void {
         let cir = D_Num * 3.14
         let forward_D = cir / 30
         switch (RorL) {
@@ -632,7 +632,7 @@ namespace eureka_plotter_car {
     //% color="#3943c6" weight=55 blockId=plottercar_R_step
     //% block="Right_wheel move |%houkou| |%R_step|steps" group="5 Fine control"
 
-    export function plottercar_R_step(R_step: number, houkou: plotter_houkou): void {
+    export function plottercar_R_step(houkou: plotter_houkou, R_step: number): void {
         moter_number = R_step;
         switch (houkou) {
             case plotter_houkou.forward:
@@ -645,7 +645,7 @@ namespace eureka_plotter_car {
     }
     //% color="#3943c6" weight=58 blockId=plottercar_L_step
     //% block="Left wheel move |%houkou| |%L_step|steps" group="5 Fine control"
-    export function plottercar_L_step(L_step: number, houkou: plotter_houkou): void {
+    export function plottercar_L_step(houkou: plotter_houkou, L_step: number): void {
         moter_number = L_step;
         switch (houkou) {
             case plotter_houkou.forward:
@@ -949,7 +949,7 @@ namespace eureka_plotter_car {
 namespace plotLED_blocks {
 
     export enum neoLED_color {
-        //% block="white
+        //% block="white"
         white,
         //% block="red"
         red,
